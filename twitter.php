@@ -1,9 +1,19 @@
 <?php
 
-//require __DIR__ . "/vendor/autoload.php";
-//require __DIR__ . "/.conf.php";
+require __DIR__ . "/.conf.php";
+require __DIR__ . "/twitter/Config.php";
+require __DIR__ . "/twitter/Response.php";
+require __DIR__ . "/twitter/Consumer.php";
+require __DIR__ . "/twitter/Request.php";
+require __DIR__ . "/twitter/Util/JsonDecoder.php";
+require __DIR__ . "/twitter/Util.php";
+require __DIR__ . "/twitter/Token.php";
+require __DIR__ . "/twitter/SignatureMethod.php";
+require __DIR__ . "/twitter/HmacSha1.php";
+require __DIR__ . "/twitter/TwitterOAuthException.php";
+require __DIR__ . "/twitter/TwitterOAuth.php";
 
-//use Abraham\TwitterOAuth\TwitterOAuth;
+use Abraham\TwitterOAuth\TwitterOAuth;
 
 $influent_accounts_politics = [
 	"RoyalSegolene",
@@ -267,6 +277,5 @@ $res = $phrases[mt_rand(0, count($phrases) -1)];
 
 echo $res;
 
-
-/*$connection = new TwitterOAuth($consumer_key, $consumer_secret, $access_token, $access_token_secret);
-$content = $connection->post("statuses/update", ['status' => $res]);*/
+$connection = new TwitterOAuth($consumer_key, $consumer_secret, $access_token, $access_token_secret);
+$content = $connection->post("statuses/update", ['status' => utf8_encode($res)]);
