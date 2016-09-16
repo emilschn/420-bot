@@ -1,281 +1,147 @@
 <?php
 
-require __DIR__ . "/vendor/autoload.php";
-require __DIR__ . "/.conf.php";
+//require __DIR__ . "/vendor/autoload.php";
+//require __DIR__ . "/.conf.php";
 
-use Abraham\TwitterOAuth\TwitterOAuth;
+//use Abraham\TwitterOAuth\TwitterOAuth;
 
-$buzz_words_hashtags = [
-    "reactjs",
-    "angularjs",
-    "paris",
-    "cto",
-    "ruby",
-    "startups",
-    "startup",
-    "leaddev",
-    "datascience",
-    "lean",
-    "agile",
-    "agility",
-    "scrum",
-    "growthhacking",
-    "investor",
-    "investors",
-    "angelinvestor",
-    "uberisation",
-    "disruption",
-    "googleadwords",
-    "npm",
-    "nodejs",
-    "microservice",
-    "scalability",
-    "iot",
-    "frontend",
-    "backend",
-    "frenchtech",
-    "machinelearning",
-    "digital",
-    "marketing",
-    "devops",
-    "ceo",
-    "coo",
-    "cfo",
-    "ai",
-    "generationz",
-    "deeplearning",
-    "mobilegeddon",
-    "smartfactory",
-    "analytics",
-    "googleanalytics",
-    "googleadwords",
-    "seo",
-    "ux",
-    "design",
-    "reactnative",
-    "uxdesign",
-    "css",
-    "encryption",
-    "security",
-    "cryptography",
-    "quantumcomputing",
-    "data",
-    "bigdata",
-    "b2b",
-    "b2c",
-    "cloud",
-    "cloudcomputing",
-    "creativity",
-    "alpha",
-    "innovation",
-    "inovative",
-    "mvp",
-    "entrepreneurship",
-    "entrepreneur",
-    "cofounder",
-    "founder",
-    "foundraise",
-    "roi",
-    "socialize",
-    "web",
-    "foundraise",
-    "strategy",
-    "upselling",
-    "marketplace",
-    "crosssell",
-    "disruptive",
-    "crosssell",
-    "leverage",
-    "growth",
-    "stratcom",
-    "growth",
-    "vr",
-    "drone",
-    "data",
-    "datamining",
-    "bicoin",
-    "mobile first",
-    "responsive",
-    "saas",
+$influent_accounts_politics = [
+	"RoyalSegolene",
+	"bayrou",
+	"JLMelenchon",
+	"FrancoisFillon",
+	"EmmanuelMacron",
+	"nk_m",
+	"MLP_officiel",
+	"NicolasSarkozy",
+	"Marion_M_Le_Pen",
+	"fhollande",
+	"manuelvalls",
+	"SLeFoll",
+	"edwyplenel"
 ];
 
-
-
-$buzz_words = [
-    "Reactjs",
-    "Angularjs",
-    "Paris",
-    "CTO",
-    "Ruby",
-    "Startups",
-    "Startup",
-    "Lead Dev",
-    "Data Science",
-    "Lean",
-    "Agile",
-    "Agility",
-    "Scrum",
-    "Growth hacking",
-    "Investor",
-    "Investors",
-    "Angel investor",
-    "Uberisation",
-    "Disruption",
-    "Google Adwords",
-    "NPM",
-    "Nodejs",
-    "Microservices",
-    "Scalability",
-    "IoT",
-    "Frontend",
-    "Backend",
-    "French Tech",
-    "Machine lLearning",
-    "Digital",
-    "Marketing",
-    "Devops",
-    "CEO",
-    "COO",
-    "CFO",
-    "AI",
-    "Generation Z",
-    "Deep Learning",
-    "Mobilegeddon",
-    "Smart Factory",
-    "Analytics",
-    "Google Analytics",
-    "Google Adwords",
-    "SEO",
-    "UX",
-    "Design",
-    "React Native",
-    "UXdesign",
-    "CSS",
-    "Encryption",
-    "Security",
-    "Cryptography",
-    "Quantum computing",
-    "Data",
-    "Bigdata",
-    "b2b",
-    "b2c",
-    "Cloud",
-    "Cloud Computing",
-    "Creativity",
-    "Alpha",
-    "Innovation",
-    "Inovative",
-    "MVP",
-    "Entrepreneurship",
-    "Entrepreneur",
-    "Co-founder",
-    "Founder",
-    "Foundraise",
-    "ROI",
-    "Socialize",
-    "Web",
-    "Strategy",
-    "Upselling",
-    "Marketplace",
-    "cross sell",
-    "Disruptive",
-    "Crosssell",
-    "Leverage",
-    "Growth",
-    "Stratcom",
-    "Growth",
-    "VR",
-    "Drone",
-    "Data",
-    "Datamining",
-    "Bicoin",
-    "CMS",
-    "Mobile first",
-    "HTML5",
-    "Responsive",
-    "SaaS",
+$influent_accounts_news = [
+	"lauhaim",
+	"laurentbazin",
+	"JeudyBruno",
+	"jcartillier",
+	"lofejoma",
+	"PhilippeCorbe",
+	"aslapix",
+	"GTabard",
+	"jmaphatie",
+	"fabricearfi",
+	"DanielRiolo",
+	"jbcadier",
+	"ThomasSotto",
+	"FCarbonne",
+	"ericbrunet",
+	"Bruce_Toussaint",
+	"NathalieSchuck",
+	"EGuedel",
+	"Fanny_Agostini",
 ];
+
+$controversy_subjects = [
+	array(
+		"label" => "du burkini",
+		"hashtags" => array(
+			"burkini",
+			"liberte"
+		)
+	),
+	array(
+		"label" => "des Panama papers",
+		"hashtags" => array(
+			"panamapapers",
+			"transparence",
+			"fraude"
+		)
+	),
+	array(
+		"label" => "du Brexit",
+		"hashtags" => array(
+			"brexit"
+		)
+	),
+	array(
+		"label" => "de Monsanto",
+		"hashtags" => array(
+			"monsanto",
+			"bayer"
+		)
+	),
+	array(
+		"label" => "du réchauffement climatique",
+		"hashtags" => array(
+			"globalwarming",
+			"ecologie",
+			"green",
+			"globalwarming",
+		)
+	),
+	array(
+		"label" => "de la Corée du Nord",
+		"hashtags" => array(
+			"northkorea"
+		)
+	),
+];
+
+$cities = [
+	"Paris",
+	"Paris",
+	"Paris",
+	"Verdun",
+	"Strasbourg",
+	"Lyon",
+	"Bordeaux",
+	"Marseille",
+];
+
+$own_hashtags = [
+	"ppl2017"
+];
+
 
 mt_srand();
 
 
 
 
-$punct = [
-    ".", ";", ".", "!", "...", ".", "?", " :)"
+$punct_list = [
+    ".", ".", " !", "...", ".", "..."
 ];
 
 
-$res = "";
+$politic = $influent_accounts_politics[mt_rand(0, count($influent_accounts_politics) -1)];
+$journalist = $influent_accounts_news[mt_rand(0, count($influent_accounts_news) -1)];
+$city = $cities[mt_rand(0, count($cities) -1)];
 
-$n = mt_rand(2, 4);
-for ($i = 0 ; $i < $n; $i++) {
+$subject = $controversy_subjects[mt_rand(0, count($controversy_subjects) -1)];
+$subject_label = $subject["label"];
+$hashtag = $subject["hashtags"][mt_rand(0, count($subject["hashtags"]) -1)];
 
-    $a = $buzz_words_hashtags[mt_rand(0, count($buzz_words_hashtags) -1)];
-    $b = $buzz_words_hashtags[mt_rand(0, count($buzz_words_hashtags) -1)];
-    $c = $buzz_words_hashtags[mt_rand(0, count($buzz_words_hashtags) -1)];
+$punct = $punct_list[mt_rand(0, count($punct_list) -1)];
 
-    $d = $buzz_words[mt_rand(0, count($buzz_words) -1)];
-    $e = $buzz_words[mt_rand(0, count($buzz_words) -1)];
-    $f = $buzz_words[mt_rand(0, count($buzz_words) -1)];
+//    $e = $buzz_words[mt_rand(0, count($buzz_words) -1)];
+//    $f = $buzz_words[mt_rand(0, count($buzz_words) -1)];
 
-    $phrases = [
-        "#$a is the new #$b",
-        "My #$a is #$b",
-        "#$a is so #$b",
-        "#$a > #$b",
-        "#$a and #$b",
-        "#$a or #$b",
-        "Yes",
-        "No",
-        "Why",
-        "Lol",
-        "Still learning #$a",
-        "#$a #$b #$c",
-        "#$a",
-        "#$a is #$b",
-        "So exited by #$b",
-        "Wow: #$a",
+$phrases = [
+	"Belle rencontre avec @$politic au sujet $subject_label$punct #$hashtag",
+	"Les positions de @$politic pour ce qui est $subject_label m'inquiètent$punct #$hashtag",
+	"La dernière déclaration de @$politic à propos $subject_label n'est pas une bonne nouvelle$punct",
+	"On n'avance vraiment pas au sujet $subject_label$punct, n'est-ce-pas @$journalist ?",
+	"Il faudrait que @$journalist aborde un peu plus le thème $subject_label$punct #$hashtag",
+	"Rendez-vous demain à $city avec @$journalist pour parler $subject_label$punct",
+];
 
 
-        "$d is the new $e",
-        "My $d is $e",
-        "$d is so $e",
-        "$d = $e",
-        "$d and $e",
-        "$d or $e",
-        "Still learning $e",
-        "$d",
-        "$d $e",
-        "$d is $e",
-        "$d needs $e",
-        "$d requires $e",
-
-        "Your $d is #$b",
-        "$d is #$b for $e",
-        "$d < #$b",
-        "$d and #$b",
-        "$d or #$b",
-        "More #$b for $e",
-        "$d",
-        "$d #$b",
-        "$d is #$b",
-        "$d needs #$b to success",
-        "$d likes #$b",
-
-        "$d #$a $e",
-        "#$a $d $e",
-        "$d $e #$a",
-        "$d #$a #$b",
-    ];
-
-
-    $res .= $phrases[mt_rand(0, count($phrases) -1)] . $punct[mt_rand(0, count($punct) -1)] . " ";
-}
-$res = trim($res);
+$res = $phrases[mt_rand(0, count($phrases) -1)];
 
 echo $res;
 
 
-$connection = new TwitterOAuth($consumer_key, $consumer_secret, $access_token, $access_token_secret);
-$content = $connection->post("statuses/update", ['status' => $res]);
+/*$connection = new TwitterOAuth($consumer_key, $consumer_secret, $access_token, $access_token_secret);
+$content = $connection->post("statuses/update", ['status' => $res]);*/
