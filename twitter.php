@@ -205,5 +205,5 @@ if (isset($last_news_to_retweet)) {
 } else {
 	echo '<br /><br />';
 	echo 'Phrase: ' .$res;
-	$content = $connection->post("statuses/update", ['status' => utf8_encode($res)]);
+	$content = $connection->post("statuses/update", ['status' => $res]);
 }
