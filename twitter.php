@@ -200,10 +200,10 @@ if ($result_direct != "") {
 if (isset($last_news_to_retweet)) {
 	echo '<br /><br />';
 	echo 'ID to retweet: ' .$last_news_to_retweet->id;
-//	$content = $connection->post("statuses/retweet/".$last_news_to_retweet->id);
+	$content = $connection->post("statuses/retweet/".$last_news_to_retweet->id);
 	
 } else {
 	echo '<br /><br />';
 	echo 'Phrase: ' .$res;
-//	$content = $connection->post("statuses/update", ['status' => utf8_encode($res)]);
+	$content = $connection->post("statuses/update", ['status' => utf8_encode($res)]);
 }
