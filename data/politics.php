@@ -21,5 +21,7 @@ $influent_accounts_politics = [
 	"MarisolTouraine",
 	"christineboutin",
 	"jf_cope",
-	"alainjuppe"
+	"alainjuppe",
+        "ECiotti",
+        "cestrosi"
 ];

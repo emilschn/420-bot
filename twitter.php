@@ -84,10 +84,13 @@ $phrases = [
 	"Ce qui intéresse les français, c'est de clarifier les avancées à propos $subject_label, @$politic$punct",
 	"Le gouvernement n'a pas assez fait d'effort en faveur $subject_label, n'est-ce-pas @$politic ?",
 	
+	"Merci à @$journalist d'avoir suivi mon dernier meeting$punct$own_hashtag",
 	"On n'avance vraiment pas au sujet $subject_label, n'est-ce-pas @$journalist ?",
 	"Il faudrait que @$journalist aborde un peu plus le thème $subject_label$punct #$hashtag",
 	"Nos concitoyens seraient intéressés pour en savoir plus sur le thème $subject_label, @$journalist$punct #$hashtag",
 	"Rendez-vous demain à $city avec @$journalist pour parler $subject_label$punct$own_hashtag",
+    
+        "$city$punct Quelle ville$punct #$city",
 	
 	"J'attends toujours l'invitation de @$show pour pouvoir exposer mon programme aux français$punct$own_hashtag",
 	"Sur @$show, on ne parle toujours pas des vrais sujets, par exemple $subject_label$punct",
@@ -109,6 +112,9 @@ $phrases = [
 	"Là où certains élus refusent de s'engager, je serai intransigeant à propos $subject_label$punct$own_hashtag",
 	"Il est évident que le thème $subject_label sera au coeur de ma campagne$punct$own_hashtag",
 	"Nous ne pouvons plus être divisés au sujet $subject_label$punct Il est temps de trouver des compromis$punct #$hashtag$own_hashtag",
+	"Il est temps d'engager de vraies réformes au sujet $subject_label$punct #$hashtag$own_hashtag",
+	"Les français attendent des résultats à propos $subject_label$punct #$hashtag$own_hashtag",
+	"Je peaufine mon programme qui insistera sur la question $subject_label$punct #$hashtag$own_hashtag",
 	
 ];
 $result_vague = $phrases[mt_rand(0, count($phrases) -1)];
@@ -154,6 +160,53 @@ if (isset($influent_timedshows[$day_str][$current_hour])) {
 
 $connection = new TwitterOAuth($consumer_key, $consumer_secret, $access_token, $access_token_secret);
 
+//Sometimes, favorite (like) the last mention
+$random_favorite = rand(1, 10);
+if ($random_favorite == 1) {
+    $last_mentions_list = $connection->get("statuses/mentions_timeline", ['count' => 1]);
+    $connection->post("favorites/create", ['id' => $last_mentions_list[0]->id]);
+}
+
+//Sometimes, check the last followers to follow back
+$random_followback = rand(1, 15);
+if ($random_followback == 1) {
+    //follow back follower
+    $ownfollowers_list = $connection->get("followers/list", ['skip_status' => true, 'count' => 1]);
+    $is_following = $ownfollowers_list->users[0]->following;
+    if (!$is_following) {
+        $connection->post("friendships/create", ['user_id' => $ownfollowers_list->users[0]->id]);
+    }
+    
+    //follow one of its followers (2 to not get own account)
+    $follower_followers_list = $connection->get("followers/list", ['skip_status' => true, 'count' => 2, 'user_id' => $ownfollowers_list->users[0]->id]);
+    $is_following_follower = $follower_followers_list->users[1]->following;
+    if (!$is_following_follower) {
+        $connection->post("friendships/create", ['user_id' => $follower_followers_list->users[1]->id]);
+    }
+}
+
+//Sometimes, thanks random follower for its support
+$random_thanks = rand(1, 20);
+if ($random_followback == 1) {
+    //get followers list
+    $ownfollowers_list = $connection->get("followers/list", ['skip_status' => true]);
+    $nb_followers = count($ownfollowers_list->users);
+    $random_follower_index = rand(1, $nb_followers);
+    $random_follower_name = $ownfollowers_list->users[$random_follower_index]->screen_name;
+    
+    $phrases_thanks = [
+            "Merci de votre précieux soutien, @$random_follower_name$punct",
+            "Je tiens à remercier publiquement @$random_follower_name pour son soutien$punct",
+            ".@$random_follower_name Merci de m'avoir suivi, mon programme sera bientôt disponible$punct",
+            "Je compte sur vous dans les urnes, @$random_follower_name$punct",
+            "L'avis de @$random_follower_name à propos $subject_label vaut le détour$punct",
+            "Il est toujours intéressant de parler $subject_label avec @$random_follower_name$punct",
+            "Ce cher @$random_follower_name est intarrissable dès qu'il s'agit $controversy_subject_label$punct",
+    ];
+}
+
+
+
 //There is a show
 //4 times out of 5, react to the show
 if ($result_direct != "") {
@@ -165,7 +218,7 @@ if ($result_direct != "") {
 //There is no show
 } else {
 	
-	//1 time out of 5, retweet a news
+	//1 time out of 5, retweet news
 	$random = rand(1, 5);
 	if ($random == 1) {
 		$last_news_to_retweet_list = $connection->get("statuses/user_timeline", ['screen_name' => $newspaper, 'count' => 1]);
@@ -175,7 +228,7 @@ if ($result_direct != "") {
 	} else {
 		
 		//1 time out of 10, react to a trend close to a random town
-		$random = rand(1, 15);
+		$random = rand(1, 8);
 		if ($random == 1) {
 			$city_coordinates = $coordinates[$city];
 			$geoloc_list = $connection->get("trends/closest", ['lat' => $city_coordinates[0], 'long' => $city_coordinates[1]]);

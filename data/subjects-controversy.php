@@ -1,13 +1,13 @@
 <?php
 global $controversy_subjects;
 $controversy_subjects = [
-	array(
+	/*array(
 		"label" => "du burkini",
 		"hashtags" => array(
 			"burkini",
 			"liberte"
 		)
-	),
+	),*/
 	array(
 		"label" => "de la Corée du Nord",
 		"hashtags" => array(
@@ -28,13 +28,13 @@ $controversy_subjects = [
 			"fraude"
 		)
 	),
-	array(
+	/*array(
 		"label" => "des Bahamas Leaks",
 		"hashtags" => array(
 			"BahamasLeaks",
 			"Kroes"
 		)
-	),
+	),*/
 	array(
 		"label" => "de l'euthanasie",
 		"hashtags" => array(
@@ -59,6 +59,18 @@ $controversy_subjects = [
 		"label" => "de Jérôme Kerviel",
 		"hashtags" => array(
 			"Kerviel",
+		)
+	),
+	array(
+		"label" => "de l'élection de Donald Trump",
+		"hashtags" => array(
+			"Trump",
+		)
+	),
+	array(
+		"label" => "des primaires des Républicains",
+		"hashtags" => array(
+			"democratie",
 		)
 	),
 ];

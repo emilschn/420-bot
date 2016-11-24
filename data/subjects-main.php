@@ -127,4 +127,11 @@ $main_subjects = [
 			"republique",
 		)
 	),
+	array(
+		"label" => "de la carte scolaire",
+		"hashtags" => array(
+			"education",
+			"edtech",
+		)
+	),
 ];

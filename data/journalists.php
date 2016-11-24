@@ -20,5 +20,7 @@ $influent_accounts_news = [
 	"NathalieSchuck",
 	"EGuedel",
 	"Fanny_Agostini",
-	"edwyplenel"
+	"edwyplenel",
+        "ndemorand",
+        "AudreyPulvar"
 ];
