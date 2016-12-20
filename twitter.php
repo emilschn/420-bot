@@ -90,7 +90,8 @@ $phrases = [
 	"Nos concitoyens seraient intéressés pour en savoir plus sur le thème $subject_label, @$journalist$punct #$hashtag",
 	"Rendez-vous demain à $city avec @$journalist pour parler $subject_label$punct$own_hashtag",
     
-        "$city$punct Quelle ville$punct #$city",
+	"Je pars en quête de mes 500 signatures du côté de $city$punct #$city",
+	"$city$punct Quelle ville$punct #$city",
 	
 	"J'attends toujours l'invitation de @$show pour pouvoir exposer mon programme aux français$punct$own_hashtag",
 	"Sur @$show, on ne parle toujours pas des vrais sujets, par exemple $subject_label$punct",
@@ -153,7 +154,7 @@ if (isset($influent_timedshows[$day_str][$current_hour])) {
 		"Pensée à tous les acteurs réunis autour de la question $subject_label$punct Il est temps que les choses bougent$punct #$hashtag_direct #$hashtag$own_hashtag",
 		"Le gouvernement a encore beaucoup de travail à accomplir pour pouvoir parler $subject_label$punct #$hashtag_direct$own_hashtag",
 	];
-	$result_direct = $phrases_react_direct[mt_rand(0, count($phrases_react_direct) -1)];
+	$result_direct = $phrases_react_direct[mt_rand(0, count($phrases_react_direct) - 1)];
 
 }
 
@@ -161,10 +162,16 @@ if (isset($influent_timedshows[$day_str][$current_hour])) {
 $connection = new TwitterOAuth($consumer_key, $consumer_secret, $access_token, $access_token_secret);
 
 //Sometimes, favorite (like) the last mention
-$random_favorite = rand(1, 10);
+$random_favorite = rand(1, 15);
 if ($random_favorite == 1) {
     $last_mentions_list = $connection->get("statuses/mentions_timeline", ['count' => 1]);
     $connection->post("favorites/create", ['id' => $last_mentions_list[0]->id]);
+	
+	//and answer !
+	require __DIR__ . "/quote-maker.php";
+	global $answer_sentence;
+	$post_answer = '@' . $last_mentions_list[0]->screen_name . ' ' . $answer_sentence;
+	$content = $connection->post("statuses/update", ['status' => $post_answer, 'in_reply_to_status_id' => $last_mentions_list[0]->id]);
 }
 
 //Sometimes, check the last followers to follow back
@@ -187,7 +194,7 @@ if ($random_followback == 1) {
 
 //Sometimes, thanks random follower for its support
 $random_thanks = rand(1, 20);
-if ($random_followback == 1) {
+if ($random_thanks == 1) {
     //get followers list
     $ownfollowers_list = $connection->get("followers/list", ['skip_status' => true]);
     $nb_followers = count($ownfollowers_list->users);
@@ -203,6 +210,8 @@ if ($random_followback == 1) {
             "Il est toujours intéressant de parler $subject_label avec @$random_follower_name$punct",
             "Ce cher @$random_follower_name est intarrissable dès qu'il s'agit $controversy_subject_label$punct",
     ];
+	$phrase_thanks = $phrases_thanks[mt_rand(0, count($phrases_thanks) - 1)];
+	$content = $connection->post("statuses/update", ['status' => $phrase_thanks]);
 }
 
 
