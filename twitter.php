@@ -170,7 +170,7 @@ if ($random_favorite == 1) {
 	//and answer !
 	require __DIR__ . "/quote-maker.php";
 	global $answer_sentence;
-	$post_answer = '@' . $last_mentions_list[0]->screen_name . ' ' . $answer_sentence;
+	$post_answer = '@' . $last_mentions_list[0]->user->screen_name . ' ' . $answer_sentence;
 	$content = $connection->post("statuses/update", ['status' => $post_answer, 'in_reply_to_status_id' => $last_mentions_list[0]->id]);
 }
 
